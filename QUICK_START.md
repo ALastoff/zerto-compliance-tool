@@ -1,6 +1,8 @@
-# Zerto Compliance Tool - Quick Start Guide
+# Zerto Compliance Tool - Quick Start Guide | DR Testing & VM Protection Audit
 
 **Version:** 2.1.0 | **Release Date:** December 25, 2025
+
+> **Fast-track guide for installing and running automated Zerto compliance audits. Evaluate disaster recovery testing, VM protection coverage, and cyber resilience in 5 minutes.**
 
 ## 📦 What's Included
 
@@ -160,6 +162,16 @@ powershell -ExecutionPolicy Bypass -File Uninstall-ZertoComplianceLauncher.ps1
 - Core compliance scoring engine
 - HTML report generation
 - Windows scheduled task support
+
+---
+
+## About This Tool
+
+The Zerto Compliance Tool helps IT administrators automate disaster recovery compliance assessments. Monitor VPG testing frequency, track VM protection gaps, validate cyber resilience configurations, and generate professional audit reports—all without manual spreadsheet tracking.
+
+**Perfect for:** VMware vSphere admins, disaster recovery managers, compliance officers, MSPs, IT security teams
+
+**Keywords:** Zerto compliance audit, DR testing automation, VM protection monitoring, VPG compliance checker, disaster recovery reporting, Zerto PowerShell tool, cyber resilience assessment, business continuity audit, Zerto automation script, RTO RPO validation
 
 ---
 
