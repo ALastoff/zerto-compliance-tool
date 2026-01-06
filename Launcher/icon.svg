@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="lionGradient" x1="84" y1="66" x2="190" y2="198" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1CD2A3"/>
+      <stop offset="1" stop-color="#1572E8"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="232" height="232" rx="40" fill="#0C1B2A"/>
+  <path d="M128 36l72 24v62c0 46-28 88-72 112-44-24-72-66-72-112V60l72-24z" fill="#0F2435" stroke="#173B52" stroke-width="4"/>
+  <path d="M114 94c14-12 38-12 54 2l8-6 12 10-12 12c5 10 5 24-1 34-8 14-22 22-36 24l-2 16-14-4 2-14c-12-4-22-12-28-24-6-12-6-30 4-44l-12-8 10-12 8 14z" fill="url(#lionGradient)"/>
+  <path d="M148 166l-12-12-12 12 24 24 34-36-12-10-22 22z" fill="#7FF2D2"/>
+</svg>

@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerto Compliance Tool - Deployment Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        header {
+            background: linear-gradient(135deg, #01a982 0%, #0d7a66 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .toc {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .toc h2 {
+            color: #01a982;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .toc ol {
+            margin-left: 20px;
+        }
+        .toc li {
+            margin: 10px 0;
+        }
+        .toc a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        section h2 {
+            color: #01a982;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #01a982;
+            padding-bottom: 10px;
+        }
+        section h3 {
+            color: #0d7a66;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .requirement {
+            background: #f0f8f5;
+            border-left: 4px solid #01a982;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .requirement strong {
+            color: #0d7a66;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .warning strong {
+            color: #856404;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .success strong {
+            color: #155724;
+        }
+        .step {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #0066cc;
+            border-radius: 4px;
+        }
+        .step-number {
+            display: inline-block;
+            background: #0066cc;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .step h4 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        pre code {
+            color: #f8f8f2;
+            padding: 0;
+            background: none;
+        }
+        .file-list {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            border-left: 4px solid #0066cc;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        table th {
+            background: #01a982;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .screenshot-placeholder {
+            background: #e9ecef;
+            border: 2px dashed #0066cc;
+            padding: 40px;
+            text-align: center;
+            border-radius: 4px;
+            margin: 20px 0;
+            color: #666;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+        .version-info {
+            background: #f0f8f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            color: #0d7a66;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🔍 Zerto Compliance Tool</h1>
+    <p>Deployment & Installation Guide v2.1.0</p>
+</header>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+    <h2>📋 Table of Contents</h2>
+    <ol>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#requirements">System Requirements & Prerequisites</a></li>
+        <li><a href="#files">Required Files & Package Contents</a></li>
+        <li><a href="#installation">Installation Instructions</a></li>
+        <li><a href="#configuration">Configuration & First Use</a></li>
+        <li><a href="#features">Key Features</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#support">Support & Contact</a></li>
+    </ol>
+</div>
+
+<!-- OVERVIEW SECTION -->
+<section id="overview">
+    <h2>📖 Overview</h2>
+    <p>The Zerto Compliance Tool is a comprehensive assessment utility designed to evaluate your Zerto disaster recovery and business continuity infrastructure against compliance standards. It provides detailed reports on:</p>
+    <ul class="feature-list">
+        <li>DR Testing Effectiveness (40% weight)</li>
+        <li>VM Coverage & Protection (30% weight)</li>
+        <li>Cyber Resilience via Long-Term Retention (30% weight)</li>
+        <li>Site Configuration & Certificate Management</li>
+        <li>Multi-site replication analysis</li>
+        <li>Recovery testing metrics from the last 6 months</li>
+    </ul>
+    <div class="version-info">
+        <strong>Current Version:</strong> 2.1.0 (Released: December 25, 2025)<br>
+        <strong>New in v2.1.0:</strong> Secondary credentials support, multi-site configuration, improved score explanation modals, duplicate site filtering
+    </div>
+</section>
+
+<!-- REQUIREMENTS SECTION -->
+<section id="requirements">
+    <h2>📋 System Requirements & Prerequisites</h2>
+    
+    <h3>Windows Server/Workstation Requirements</h3>
+    <div class="requirement">
+        <strong>Operating System:</strong> Windows Server 2016+ or Windows 10/11 Pro/Enterprise
+    </div>
+    <div class="requirement">
+        <strong>.NET Runtime:</strong> .NET 8.0 Desktop Runtime (WindowsDesktop.App). The setup script can install this automatically.
+    </div>
+    <div class="requirement">
+        <strong>PowerShell:</strong> PowerShell 5.1+ (included with Windows Server 2016+)
+    </div>
+    <div class="requirement">
+        <strong>Disk Space:</strong> Minimum 500 MB for installation + output reports
+    </div>
+    <div class="requirement">
+        <strong>Network Access:</strong> HTTPS connectivity to Zerto ZVMA on port 443 (Zerto 10.x Linux) or port 9669 (Zerto 9.x Windows)
+    </div>
+    <div class="requirement">
+        <strong>User Privileges:</strong> Local Administrator rights on Windows system
+    </div>
+
+    <h3>Zerto Environment Requirements</h3>
+    <div class="requirement">
+        <strong>Zerto Version:</strong> 8.5 or later
+    </div>
+    <div class="requirement">
+        <strong>ZVMA Access:</strong> Valid credentials with read access to Zerto APIs
+    </div>
+    <div class="requirement">
+        <strong>Multi-Site Support:</strong> Optional - can analyze single or multiple sites
+    </div>
+
+    <h3>SSL/TLS Certificate Considerations</h3>
+    <div class="warning">
+        <strong>⚠️ Important:</strong> The tool can operate in "Lab Mode" (SSL verification disabled) for testing with self-signed certificates. For production use, ensure proper SSL certificates are installed on ZVMA.
+    </div>
+    <div class="requirement">
+        <strong>Default Behavior:</strong> Strict SSL verification enabled
+    </div>
+    <div class="requirement">
+        <strong>Lab Mode:</strong> Available checkbox to disable SSL verification (not recommended for production)
+    </div>
+
+    <h3>Network & Firewall</h3>
+    <div class="requirement">
+        <strong>Outbound HTTPS:</strong> Port 443 (Zerto 10.x Linux) or Port 9669 (Zerto 9.x Windows) to primary Zerto ZVMA
+    </div>
+    <div class="requirement">
+        <strong>Secondary Site:</strong> Port 443 (Zerto 10.x) or Port 9669 (Zerto 9.x) to secondary Zerto ZVMA (if multi-site)
+    </div>
+    <div class="warning">
+        <strong>⚠️ Zerto 10.x Architecture Change:</strong> Zerto 10.x on Linux uses standard HTTPS port 443 for both GUI and API access via Keycloak authentication. Port 9669 is no longer required. The tool automatically detects the correct endpoints.
+    </div>
+    <div class="requirement">
+        <strong>DNS Resolution:</strong> Ability to resolve ZVMA hostnames or use IP addresses
+    </div>
+</section>
+
+<!-- FILES SECTION -->
+<section id="files">
+    <h2>📦 Required Files & Package Contents</h2>
+    
+    <h3>Deployment Package Structure</h3>
+    <p>The following files are required for deployment:</p>
+    
+    <div class="file-list">
+ZertoCompliance_Deployment_Package/
+├── ZertoComplianceLauncher.exe       [Main GUI application]
+├── ZertoComplianceNew.ps1            [Core PowerShell script]
+├── Install-ZertoComplianceLauncher.ps1 [Deployment installer]
+├── Uninstall-ZertoComplianceLauncher.ps1 [Cleanup/removal script]
+├── DEPLOYMENT_GUIDE.html             [This file]
+├── README.md                          [Quick start guide]
+└── dotnet-install.ps1                [.NET runtime installer]
+    </div>
+
+    <h3>File Descriptions</h3>
+    <table>
+        <tr>
+            <th>File</th>
+            <th>Purpose</th>
+            <th>Size</th>
+        </tr>
+        <tr>
+            <td><code>ZertoComplianceLauncher.exe</code></td>
+            <td>Windows Forms GUI application for configuring and launching scans</td>
+            <td>~400 KB</td>
+        </tr>
+        <tr>
+            <td><code>ZertoComplianceNew.ps1</code></td>
+            <td>PowerShell script that performs the compliance assessment</td>
+            <td>~300 KB</td>
+        </tr>
+        <tr>
+            <td><code>Install-ZertoComplianceLauncher.ps1</code></td>
+            <td>Automated installer for Program Files deployment</td>
+            <td>~15 KB</td>
+        </tr>
+        <tr>
+            <td><code>Uninstall-ZertoComplianceLauncher.ps1</code></td>
+            <td>Removes tool and scheduled tasks</td>
+            <td>~10 KB</td>
+        </tr>
+        <tr>
+            <td><code>dotnet-install.ps1</code></td>
+            <td>Downloads and installs .NET 8.0 runtime if needed</td>
+            <td>~50 KB</td>
+        </tr>
+    </table>
+
+    <div class="success">
+        <strong>✓ Total Package Size:</strong> Approximately 800 KB (compressed)
+    </div>
+</section>
+
+<!-- INSTALLATION SECTION -->
+<section id="installation">
+    <h2>🔧 Installation Instructions</h2>
+    
+    <h3>Pre-Installation Checklist</h3>
+    <div class="step">
+        <span class="step-number">1</span>
+        <h4>Verify .NET Runtime</h4>
+        <p>Check if .NET 8.0 is installed on the target machine. Open PowerShell as Administrator and run:</p>
+        <pre><code>dotnet --list-runtimes</code></pre>
+        <p>If you see <code>Microsoft.WindowsDesktop.App 8.0.x</code> in the output, .NET is installed. If not, proceed to Step 2.</p>
+    </div>
+
+    <div class="step">
+        <span class="step-number">2</span>
+        <h4>Install .NET 8.0 Runtime (if needed)</h4>
+        <p>If .NET is not installed, run the included installer:</p>
+        <pre><code>cd "C:\Path\To\Package"
+powershell -ExecutionPolicy Bypass -File dotnet-install.ps1</code></pre>
+        <p>This script will download and install .NET 8.0 from Microsoft's servers. Installation takes 2-5 minutes.</p>
+        <div class="warning">
+            <strong>⚠️ Note:</strong> Requires internet connectivity during installation
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <h4>Run the Installer</h4>
+        <p>Execute the deployment installer with Administrator privileges:</p>
+        <pre><code>powershell -ExecutionPolicy Bypass -File Install-ZertoComplianceLauncher.ps1</code></pre>
+        <p>This installer will:</p>
+        <ul>
+            <li>Create directory: <code>C:\Program Files\ZertoCompliance\</code></li>
+            <li>Copy all required files</li>
+            <li>Create desktop shortcut (optional)</li>
+            <li>Register the application</li>
+        </ul>
+        <div class="screenshot-placeholder">
+            [Screenshot: Installation progress window]
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">4</span>
+        <h4>Verify Installation</h4>
+        <p>Confirm files are in place:</p>
+        <pre><code>ls "C:\Program Files\ZertoCompliance\"</code></pre>
+        <p>You should see:</p>
+        <div class="file-list">
+ZertoComplianceLauncher.exe
+ZertoComplianceNew.ps1
+[Other supporting files]
+        </div>
+        <div class="success">
+            <strong>✓ Installation Complete!</strong> You can now launch the tool from the Start Menu or run: <code>C:\Program Files\ZertoCompliance\ZertoComplianceLauncher.exe</code>
+        </div>
+    </div>
+
+    <h3>Alternative: Manual Installation</h3>
+    <p>If you prefer manual installation without the installer script:</p>
+    <div class="step">
+        <span class="step-number">A</span>
+        <h4>Create Directory</h4>
+        <pre><code>mkdir "C:\Program Files\ZertoCompliance"</code></pre>
+    </div>
+    <div class="step">
+        <span class="step-number">B</span>
+        <h4>Copy Files</h4>
+        <pre><code>Copy-Item "C:\Path\To\Package\*" -Destination "C:\Program Files\ZertoCompliance\" -Force</code></pre>
+    </div>
+    <div class="step">
+        <span class="step-number">C</span>
+        <h4>Create Shortcut</h4>
+        <p>Right-click <code>ZertoComplianceLauncher.exe</code> → Send to → Desktop (create shortcut)</p>
+    </div>
+</section>
+
+<!-- CONFIGURATION SECTION -->
+<section id="configuration">
+    <h2>⚙️ Configuration & First Use</h2>
+    
+    <h3>Launching the Application</h3>
+    <div class="step">
+        <span class="step-number">1</span>
+        <h4>Start the Tool</h4>
+        <p>Double-click the desktop shortcut or run:</p>
+        <pre><code>"C:\Program Files\ZertoCompliance\ZertoComplianceLauncher.exe"</code></pre>
+        <div class="screenshot-placeholder">
+            [Screenshot: Main GUI window on first launch]
+        </div>
+    </div>
+
+    <h3>Basic Configuration</h3>
+    <div class="step">
+        <span class="step-number">2</span>
+        <h4>Enter Source Site (Primary ZVMA)</h4>
+        <p><strong>Label:</strong> Source Site<br>
+        <strong>Input:</strong> IP address or hostname of your primary Zerto ZVMA</p>
+        <p><strong>Example:</strong> <code>192.168.111.20</code> or <code>zvma-prod.corp.local</code></p>
+        <div class="screenshot-placeholder">
+            [Screenshot: Source Site input field with example]
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">3</span>
+        <h4>Enter GUI User Credentials</h4>
+        <p><strong>Label:</strong> Zerto GUI User Name<br>
+        <strong>Default Example:</strong> <code>admin</code></p>
+        <p>Enter the username with API read access to your Zerto ZVMA. This is typically:</p>
+        <ul>
+            <li><code>admin</code> (default admin user)</li>
+            <li>Service account username (if configured)</li>
+            <li>Domain user (e.g., <code>zerto-svc</code>)</li>
+        </ul>
+        <p><strong>Password:</strong> Enter the corresponding password (stored securely, never logged)</p>
+    </div>
+
+    <div class="step">
+        <span class="step-number">4</span>
+        <h4>Configure Secondary Site (Optional)</h4>
+        <p><strong>Label:</strong> Secondary Site<br>
+        <strong>Input:</strong> IP or hostname of secondary Zerto ZVMA</p>
+        <p>Leave blank if you only have a single site. If you have multiple replication targets:</p>
+        <ul>
+            <li>Check: "Secondary site has different credentials" (if needed)</li>
+            <li>Enter secondary site credentials if different from primary</li>
+        </ul>
+        <div class="screenshot-placeholder">
+            [Screenshot: Secondary site configuration with checkbox]
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">5</span>
+        <h4>Configure Additional Sites (3+)</h4>
+        <p>If you have more than 2 sites:</p>
+        <ul>
+            <li>Check: "Additional sites (3+)"</li>
+            <li>Enter comma-separated list: <code>192.168.333.20,192.168.444.20</code></li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <span class="step-number">6</span>
+        <h4>Configure Advanced Options</h4>
+        <p><strong>Lab Mode (Skip SSL Verification):</strong></p>
+        <ul>
+            <li>Enable only if testing with self-signed certificates</li>
+            <li>NOT recommended for production</li>
+        </ul>
+        <p><strong>Evaluate Cyber Resilience (LTR):</strong></p>
+        <ul>
+            <li>Check this to include Long-Term Retention (LTR) vault lock status in scoring</li>
+            <li>25% weighting in overall compliance score</li>
+        </ul>
+        <p><strong>Create Scheduled Task:</strong></p>
+        <ul>
+            <li>Check to schedule recurring compliance scans</li>
+            <li>Select frequency: Daily, Weekly, or Monthly</li>
+            <li>Default: 2:00 AM UTC</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <span class="step-number">7</span>
+        <h4>Select Output Folder</h4>
+        <p>Default: <code>Documents\ZertoCompliance</code></p>
+        <p>Click "Browse..." to change location. Each scan creates a timestamped folder with:</p>
+        <ul>
+            <li><code>Report_TIMESTAMP.html</code> - Interactive compliance report</li>
+            <li><code>MANIFEST.json</code> - Scan metadata and configuration</li>
+            <li><code>LOG.txt</code> - Detailed execution log</li>
+            <li><code>SUMMARY.txt</code> - Text summary of findings</li>
+            <li><code>RecoveryReports/</code> - Recovery test data from last 6 months</li>
+        </ul>
+    </div>
+
+    <h3>Running Your First Scan</h3>
+    <div class="step">
+        <span class="step-number">8</span>
+        <h4>Execute Scan</h4>
+        <p>Click the green <strong>"Run Now"</strong> button to start the assessment.</p>
+        <p>Status updates appear in real-time:</p>
+        <ul>
+            <li>Connecting to ZVMA...</li>
+            <li>Retrieving configuration...</li>
+            <li>Analyzing VPGs and VMs...</li>
+            <li>Generating report...</li>
+            <li>✓ Compliance scan completed successfully!</li>
+        </ul>
+        <p>Typical scan duration: 30 seconds to 2 minutes depending on environment size</p>
+        <div class="screenshot-placeholder">
+            [Screenshot: Scan in progress - status updates]
+        </div>
+    </div>
+
+    <div class="step">
+        <span class="step-number">9</span>
+        <h4>View Completion Dialog</h4>
+        <p>Upon completion, a success dialog appears with two options:</p>
+        <ul>
+            <li><strong>Open HTML Report:</strong> Opens the compliance report in your default browser</li>
+            <li><strong>Open Folder:</strong> Opens the output directory in File Explorer</li>
+        </ul>
+        <div class="success">
+            <strong>✓ Report generated:</strong> <code>ZertoCompliance_192.168.111.20_20251225_160000/Report_20251225_160000.html</code>
+        </div>
+        <div class="screenshot-placeholder">
+            [Screenshot: Success dialog with checkmark and action buttons]
+        </div>
+    </div>
+
+    <h3>Understanding the Report</h3>
+    <p>The HTML report includes:</p>
+    <table>
+        <tr>
+            <th>Section</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Dashboard Cards</td>
+            <td>Quick overview - click any card to see breakdown (effectiveness vs weighted contribution)</td>
+        </tr>
+        <tr>
+            <td>Zerto Sites</td>
+            <td>Primary and recovery site configurations, versions, certificate expiration</td>
+        </tr>
+        <tr>
+            <td>VPG & VM Information</td>
+            <td>Count of VPGs, protected VMs, unprotected VMs, coverage percentage</td>
+        </tr>
+        <tr>
+            <td>DR Test Summary</td>
+            <td>Recovery test results from last 6 months</td>
+        </tr>
+        <tr>
+            <td>Controls Mapping</td>
+            <td>Which compliance controls are met</td>
+        </tr>
+    </table>
+</section>
+
+<!-- FEATURES SECTION -->
+<section id="features">
+    <h2>✨ Key Features</h2>
+    
+    <h3>Scoring Methodology</h3>
+    <p>The compliance score (0-100%) is calculated from three weighted categories:</p>
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>Weight</th>
+            <th>Measured By</th>
+        </tr>
+        <tr>
+            <td>DR Testing</td>
+            <td>40%</td>
+            <td>% of VPGs tested in last 6 months</td>
+        </tr>
+        <tr>
+            <td>VM Coverage</td>
+            <td>30%</td>
+            <td>% of VMs protected by Zerto</td>
+        </tr>
+        <tr>
+            <td>Cyber Resilience</td>
+            <td>30%</td>
+            <td>% of LTR VPGs with vault locks enabled</td>
+        </tr>
+    </table>
+
+    <h3>Multi-Site Support</h3>
+    <ul class="feature-list">
+        <li>Single-site analysis (primary ZVMA only)</li>
+        <li>Two-site analysis (primary + secondary with optional different credentials)</li>
+        <li>Multi-site analysis (3+ sites in comma-separated format)</li>
+        <li>Automatic detection of recovery targets from VPG configurations</li>
+        <li>Duplicate site filtering - primary site never appears in recovery list</li>
+    </ul>
+
+    <h3>Report Generation</h3>
+    <ul class="feature-list">
+        <li>Interactive HTML5 report with click-through modals</li>
+        <li>Color-coded scoring (green=compliant, yellow=partial, red=at-risk)</li>
+        <li>Timestamped filenames for easy version tracking</li>
+        <li>JSON manifest for programmatic access</li>
+        <li>Machine-readable CSV output format available</li>
+    </ul>
+
+    <h3>Scheduling & Automation</h3>
+    <ul class="feature-list">
+        <li>Create Windows scheduled tasks directly from GUI</li>
+        <li>Daily, weekly, or monthly scan frequency</li>
+        <li>Non-interactive mode for background execution</li>
+        <li>Automatic email notification capability (via scheduled task)</li>
+    </ul>
+
+    <h3>Lab Mode Capability</h3>
+    <ul class="feature-list">
+        <li>SSL verification bypass for testing environments</li>
+        <li>Self-signed certificate support</li>
+        <li>Checkbox clearly marked in red for safety</li>
+    </ul>
+
+    <h3>Security & Privacy</h3>
+    <ul class="feature-list">
+        <li>Passwords never logged or stored in reports</li>
+        <li>HTTPS only communication with ZVMA</li>
+        <li>Credentials validated per-site independently</li>
+        <li>No external cloud connectivity - reports stored locally</li>
+    </ul>
+
+    <h3>Support for Zerto Features</h3>
+    <ul class="feature-list">
+        <li>Long-Term Retention (LTR) vault lock status</li>
+        <li>Recovery test metrics and analytics</li>
+        <li>Certificate expiration monitoring</li>
+        <li>VPG test history (6-month lookback)</li>
+    </ul>
+</section>
+
+<!-- TROUBLESHOOTING SECTION -->
+<section id="troubleshooting">
+    <h2>🔧 Troubleshooting</h2>
+    
+    <h3>Common Issues & Solutions</h3>
+
+    <h4>Issue: ".NET runtime not found"</h4>
+    <div class="step">
+        <p><strong>Solution:</strong> Install .NET 8.0 Desktop Runtime</p>
+        <pre><code>powershell -File dotnet-install.ps1</code></pre>
+        <p>Or download from: <code>https://dotnet.microsoft.com/download/dotnet/8.0</code></p>
+    </div>
+
+    <h4>Issue: "Authentication failed" when connecting to ZVMA</h4>
+    <div class="step">
+        <p><strong>Verify:</strong></p>
+        <ul>
+            <li>ZVMA IP/hostname is correct and reachable</li>
+            <li>Username and password are correct</li>
+            <li>Port 9669 is accessible from this machine</li>
+            <li>Firewall rules allow outbound HTTPS to ZVMA</li>
+            <li>User has API read permissions in Zerto</li>
+        </ul>
+        <p><strong>Test connectivity:</strong></p>
+        <pre><code>Test-NetConnection -ComputerName 192.168.111.20 -Port 9669</code></pre>
+    </div>
+
+    <h4>Issue: "SSL certificate validation failed"</h4>
+    <div class="step">
+        <p><strong>For testing environments:</strong> Enable "Lab Mode" checkbox</p>
+        <p><strong>For production:</strong> Ensure ZVMA has valid SSL certificate installed</p>
+        <p><strong>Check certificate:</strong></p>
+        <pre><code>openssl s_client -connect 192.168.111.20:9669 -showcerts</code></pre>
+    </div>
+
+    <h4>Issue: "Report not found after scan completes"</h4>
+    <div class="step">
+        <p><strong>Check:</strong></p>
+        <ul>
+            <li>Output folder path is writable</li>
+            <li>Disk space available (minimum 100 MB)</li>
+            <li>Verify scan completed successfully in output window</li>
+            <li>Check LOG.txt file for errors</li>
+        </ul>
+        <p><strong>Manually locate report:</strong></p>
+        <pre><code>dir "C:\Users\[YourUsername]\Documents\ZertoCompliance"</code></pre>
+    </div>
+
+    <h4>Issue: "Secondary site authentication fails but primary works"</h4>
+    <div class="step">
+        <p><strong>Check:</strong></p>
+        <ul>
+            <li>Secondary site IP/hostname is correct</li>
+            <li>Secondary site uses same credentials as primary (if checkbox unchecked)</li>
+            <li>If different credentials needed, check "Secondary site has different credentials"</li>
+            <li>Verify network connectivity to secondary ZVMA</li>
+        </ul>
+    </div>
+
+    <h3>Log File Analysis</h3>
+    <p>For detailed troubleshooting, examine the LOG.txt file in your output folder:</p>
+    <pre><code>C:\Users\[YourUsername]\Documents\ZertoCompliance\
+  └── ZertoCompliance_192.168.111.20_20251225_160000\
+      └── LOG.txt
+    </code></pre>
+    <p>Look for:</p>
+    <ul>
+        <li><code>ERROR</code> or <code>EXCEPTION</code> messages</li>
+        <li>Failed API calls with response codes</li>
+        <li>Connection timeout messages</li>
+        <li>Permission-related errors</li>
+    </ul>
+
+    <h3>Contacting Support</h3>
+    <p>If issues persist, gather the following and contact support:</p>
+    <ul>
+        <li>LOG.txt file from the failed scan</li>
+        <li>MANIFEST.json (contains no sensitive data)</li>
+        <li>Screenshot of error message with timestamp</li>
+        <li>ZVMA version (Help button → email to aaron.lastoff@hpe.com)</li>
+    </ul>
+</section>
+    <!-- TROUBLESHOOTING SECTION -->
+    <section id="troubleshooting">
+        <h2>🛠️ Troubleshooting</h2>
+        <h3>Common Issues & Fixes</h3>
+        <div class="step">
+            <span class="step-number">1</span>
+            <h4>EXE does not open</h4>
+            <p>If the launcher appears to do nothing when executed:</p>
+            <ul>
+                <li>Run the environment setup first:<br>
+                    <pre><code>powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1</code></pre>
+                </li>
+                <li>Confirm the Windows Desktop runtime is installed:<br>
+                    <pre><code>& "$env:ProgramFiles\dotnet\dotnet" --list-runtimes</code></pre>
+                    Ensure <code>Microsoft.WindowsDesktop.App 8.0.x</code> is listed.
+                </li>
+                <li>Check the launcher log for startup errors:<br>
+                    <pre><code>Get-Content "$env:TEMP\ZertoComplianceLauncher.log" -Tail 50</code></pre>
+                </li>
+                <li>Try launching elevated:<br>
+                    <pre><code>Start-Process "C:\Program Files\ZertoCompliance\ZertoComplianceLauncher.exe" -Verb RunAs</code></pre>
+                </li>
+            </ul>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <h4>.NET Runtime Missing</h4>
+            <p>If you see errors related to .NET, run the included installer or download from Microsoft:</p>
+            <pre><code>powershell -ExecutionPolicy Bypass -File dotnet-install.ps1</code></pre>
+            <p>Or visit <a href="https://dotnet.microsoft.com/download/dotnet/8.0" target="_blank">.NET 8.0 Downloads</a>.</p>
+        </div>
+        <div class="step">
+            <span class="step-number">3</span>
+            <h4>Authentication Failures</h4>
+            <p>Ensure that your ZVMA IP/hostname is correct, your credentials are valid, and that the correct port is reachable (443 for Zerto 10.x Linux, 9669 for Zerto 9.x Windows).</p>
+        </div>
+        <div class="step warning">
+            <span class="step-number">4</span>
+            <h4>SSL Certificate Issues</h4>
+            <p>If you encounter SSL/TLS certificate errors during testing or lab use, you can enable <strong>Lab Mode</strong> (skip SSL verification) in the launcher. For production, install valid certificates on ZVMA.</p>
+        </div>
+    </section>
+
+<!-- SUPPORT SECTION -->
+<section id="support">
+    <h2>📞 Support & Contact</h2>
+    
+    <h3>Getting Help</h3>
+    <p>If you encounter issues or need assistance:</p>
+    <div class="requirement">
+        <strong>Email Support:</strong> aaron.lastoff@hpe.com<br>
+        Subject: Zerto Compliance Tool
+    </div>
+    <p>Use the <strong>Help</strong> button in the application to open your email client with pre-filled contact information.</p>
+
+    <h3>Providing Feedback</h3>
+    <p>We welcome feature requests and suggestions! Please include:</p>
+    <ul>
+        <li>Your use case or scenario</li>
+        <li>Current tool version</li>
+        <li>Your Zerto version</li>
+        <li>Environment details (number of sites, VMs, etc.)</li>
+    </ul>
+
+    <h3>Version & Updates</h3>
+    <div class="version-info">
+        <strong>Current Version:</strong> 2.1.0<br>
+        <strong>Last Updated:</strong> December 25, 2025<br>
+        <strong>Release Notes:</strong><br>
+        • Secondary credentials support for multi-site scenarios<br>
+        • Additional sites (3+) configuration<br>
+        • Improved score explanation modals<br>
+        • Fixed duplicate recovery site filtering<br>
+        • Enhanced Help button with email integration<br>
+        • "Zerto GUI User Name" label clarification
+    </div>
+
+    <h3>Before Going Live - Checklist</h3>
+    <p>Before deploying to production, ensure:</p>
+    <ul class="feature-list">
+        <li>Tool tested in lab environment with test ZVMA</li>
+        <li>All required network access verified</li>
+        <li>Output folder writable and backed up</li>
+        <li>ZVMA user credentials tested and confirmed</li>
+        <li>Lab Mode disabled for production deployment</li>
+        <li>Version tracking system configured (v2.1.0 recommended)</li>
+        <li>Scheduled tasks configured if needed</li>
+        <li>Support contact information verified</li>
+    </ul>
+</section>
+
+</div>
+
+<footer>
+    <p>Zerto Compliance Tool v2.1.0 | Deployment Guide | Copyright HPE</p>
+    <p>For support: aaron.lastoff@hpe.com | Subject: Zerto Compliance Tool</p>
+    <p>Last Updated: December 25, 2025</p>
+</footer>
+
+</body>
+</html>

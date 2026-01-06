@@ -1,0 +1,39 @@
+# Zerto Compliance Tool - Git Ignore
+
+# Sensitive credentials and configurations
+auth.config.json
+*.credential
+*password*
+*bearer*
+
+# Test outputs and logs
+Test Output/
+_archive_test_runs/
+_archive_old/
+*.log
+
+# Build outputs
+Launcher/bin/
+Launcher/obj/
+*.exe
+*.dll
+*.pdb
+*.deps.json
+*.runtimeconfig.json
+
+# Deployment packages
+ComplianceTool_DeploymentPackage/
+*.zip
+
+# IDE and OS files
+.vscode/
+.vs/
+*.suo
+*.user
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+~$*

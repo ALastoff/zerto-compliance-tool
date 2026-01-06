@@ -1,0 +1,166 @@
+# Zerto Compliance Tool - Quick Start Guide
+
+**Version:** 2.1.0 | **Release Date:** December 25, 2025
+
+## 📦 What's Included
+
+- `ZertoComplianceLauncher.exe` - GUI Application
+- `ZertoComplianceNew.ps1` - Core PowerShell Assessment Script
+- `Install-ZertoComplianceLauncher.ps1` - Automated Installer
+- `Uninstall-ZertoComplianceLauncher.ps1` - Cleanup Script
+- `DEPLOYMENT_GUIDE.html` - Full Installation & Configuration Guide
+- `dotnet-install.ps1` - .NET 8.0 Runtime Installer
+
+## ⚡ Quick Start (5 Minutes)
+
+### 1. Install .NET (If Needed)
+```powershell
+powershell -ExecutionPolicy Bypass -File dotnet-install.ps1
+```
+
+### 2. Run Installer
+```powershell
+powershell -ExecutionPolicy Bypass -File Install-ZertoComplianceLauncher.ps1
+```
+
+### 3. Launch Application
+```powershell
+"C:\Program Files\ZertoCompliance\ZertoComplianceLauncher.exe"
+```
+
+### 4. Configure & Run
+- **Source Site:** Enter primary ZVMA IP/hostname
+- **Zerto GUI User Name:** Enter your Zerto admin username (e.g., `admin`)
+- **Password:** Enter corresponding password
+- Click **"Run Now"** to start the compliance scan
+
+### 5. Review Report
+The completion dialog will offer to open the HTML report or folder with results.
+
+## ✅ System Requirements
+
+| Component | Requirement |
+|-----------|------------|
+| OS | Windows Server 2016+ or Windows 10/11 |
+| .NET | 8.0 Desktop Runtime (auto-installed) |
+| PowerShell | 5.1+ (included with Windows) |
+| Network | HTTPS access to Zerto ZVMA (port 443 for 10.x, port 9669 for 9.x) |
+| Privileges | Local Administrator |
+
+## 🎯 Key Features
+
+✓ **DR Testing Assessment** - VPG test frequency (40% of score)  
+✓ **VM Protection Coverage** - % of VMs protected (30% of score)  
+✓ **Cyber Resilience** - LTR vault lock status (30% of score)  
+✓ **Multi-Site Support** - Single, dual, or 3+ site analysis  
+✓ **Interactive Reports** - HTML5 reports with click-through details  
+✓ **Scheduling** - Create recurring compliance scans  
+✓ **Lab Mode** - SSL verification bypass for testing
+
+## 📊 Scoring Breakdown
+
+Your compliance score is calculated from:
+
+```
+Overall Score = (DR Testing % × 0.40) 
+              + (VM Coverage % × 0.30) 
+              + (Cyber Resilience % × 0.30)
+```
+
+**Example:**
+- DR Testing: 50% effectiveness = 20 points (50% × 40%)
+- VM Coverage: 80% protected = 24 points (80% × 30%)
+- Cyber Resilience: 0% locks = 0 points (0% × 30%)
+- **Total Score: 44%**
+
+Click the dashboard cards in the report to see detailed breakdowns!
+
+## 🔐 Security Notes
+
+- Passwords are **never logged** or stored in reports
+- **HTTPS only** communication with ZVMA
+- Credentials validated per-site independently
+- **Lab Mode** (SSL skip) is disabled by default and marked in red
+- All reports stored **locally** - no cloud connectivity
+
+## 🆘 Common Issues
+
+| Problem | Solution |
+|---------|----------|
+| ".NET runtime not found" | Run `dotnet-install.ps1` or download from dotnet.microsoft.com |
+| "Authentication failed" | Verify ZVMA IP, username/password, and port 9669 access |
+| "SSL certificate failed" | Enable Lab Mode for testing, or install valid cert on ZVMA |
+| "Secondary site fails" | Check secondary site IP and verify same/different credentials option |
+
+## 🔧 Troubleshooting (EXE doesn’t open)
+
+- **Confirm Windows Desktop runtime:**
+    ```powershell
+    & "$env:ProgramFiles\dotnet\dotnet" --list-runtimes
+    ```
+    Ensure `Microsoft.WindowsDesktop.App 8.0.x` is listed.
+
+- **Run environment setup first:**
+    ```powershell
+    powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
+    ```
+
+- **Check launcher log:** The app logs startup errors to:
+    - `"%TEMP%\ZertoComplianceLauncher.log"`
+    View the last lines:
+    ```powershell
+    Get-Content "$env:TEMP\ZertoComplianceLauncher.log" -Tail 50
+    ```
+
+- **Try elevated launch:**
+    ```powershell
+    Start-Process "C:\Program Files\ZertoCompliance\ZertoComplianceLauncher.exe" -Verb RunAs
+    ```
+
+- **SmartScreen/MOTW:** If downloaded from the internet, unzip to a local folder and ensure no Mark-of-the-Web blocks. (The packaged EXE is copied without MOTW.)
+
+## 📞 Support
+
+**Need Help?**  
+Click the **Help** button in the application to email support.
+
+**Contact:** aaron.lastoff@hpe.com  
+**Subject:** Zerto Compliance Tool
+
+## 📋 Full Documentation
+
+See `DEPLOYMENT_GUIDE.html` for:
+- Detailed installation instructions
+- Configuration walkthrough with screenshots placeholders
+- Multi-site setup guide
+- Scheduling & automation
+- Complete troubleshooting guide
+- Report interpretation
+
+## 🔄 Uninstalling
+
+To remove the tool:
+```powershell
+powershell -ExecutionPolicy Bypass -File Uninstall-ZertoComplianceLauncher.ps1
+```
+
+## 📝 Version History
+
+**v2.1.0 (Dec 25, 2025)**
+- Secondary credentials support for different multi-site credentials
+- Additional sites (3+) comma-separated configuration
+- Improved score explanation modals (effectiveness vs weighted contribution)
+- Fixed duplicate recovery site filtering (primary site no longer appears in recovery list)
+- Enhanced Help button with email integration
+- "Zerto GUI User Name" label for clarity
+- FindLatestReport sorting for guaranteed latest report opening
+
+**v2.0.0**
+- Initial release with single/dual-site support
+- Core compliance scoring engine
+- HTML report generation
+- Windows scheduled task support
+
+---
+
+**For detailed step-by-step instructions, open `DEPLOYMENT_GUIDE.html` in a web browser.**
