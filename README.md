@@ -10,15 +10,9 @@ The Zerto Compliance Tool helps IT teams automate disaster recovery compliance a
 
 **Keywords:** Zerto compliance audit, disaster recovery testing automation, VM protection monitoring, VPG compliance checker, Zerto reporting tool, cyber resilience scoring, business continuity audit, Zerto PowerShell automation, RTO RPO validation, ransomware protection assessment
 
-## Legal Disclaimer
-
-This script is provided as an example only and is not supported under any Zerto support program or service.
-
-The author and Zerto disclaim all implied warranties, including merchantability and fitness for a particular purpose.
-In no event shall Zerto or the author be liable for damages arising from the use or inability to use this script.
-Use at your own risk.
-
 A lightweight, enterprise-ready audit solution for IT administrators and disaster recovery professionals managing Zerto Virtual Replication. This free, open-source PowerShell tool generates actionable compliance reports with executive summaries, score cards, and audit evidence.
+
+**For detailed instructions, see `DEPLOYMENT_GUIDE.html` or `QUICK_START.md`.**
 
 ## Features
 - Executive HTML report with clear score cards
@@ -64,4 +58,10 @@ See `UPGRADE.md` for a safe upgrade process.
 - Keep sensitive info out of commits
 - Follow PS and C# style guides; avoid hard-coded paths
 ---
-**For detailed instructions, see `DEPLOYMENT_GUIDE.html` or `QUICK_START.md`.**
+## Legal Disclaimer
+
+This script is provided as an example only and is not supported under any Zerto support program or service.
+
+The author and Zerto disclaim all implied warranties, including merchantability and fitness for a particular purpose.
+In no event shall Zerto or the author be liable for damages arising from the use or inability to use this script.
+Use at your own risk.
