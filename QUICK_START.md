@@ -4,6 +4,14 @@
 
 > **Fast-track guide for installing and running automated Zerto compliance audits. Evaluate disaster recovery testing, VM protection coverage, and cyber resilience in 5 minutes.**
 
+## Legal Disclaimer
+
+This script is provided as an example only and is not supported under any Zerto support program or service.
+
+The author and Zerto disclaim all implied warranties, including merchantability and fitness for a particular purpose.
+In no event shall Zerto or the author be liable for damages arising from the use or inability to use this script.
+Use at your own risk.
+
 ## 📦 What's Included
 
 - `ZertoComplianceLauncher.exe` - GUI Application
