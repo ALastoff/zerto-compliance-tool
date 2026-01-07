@@ -24,14 +24,9 @@ powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1
 The installer overwrites files in `C:\Program Files\ZertoCompliance\` and preserves shortcuts.
 
 ## Configuration Preservation
-- The tool does not store credentials; scheduled tasks store encrypted credentials via Windows Task Scheduler
+- The tool does not store credentials in files
 - Output folders are created per run under your chosen location, using the pattern:
   `ComplianceAudit_<host>_<YYYY-MM-DD_HHMMSS>`
-
-## Scheduled Task Considerations
-- If you previously used the Schedule Task feature, tasks continue to run after upgrade
-- Task name: `ZCT-AutoAudit` or `ZertoComplianceScan` depending on version
-- Recreate the schedule if you changed script names or paths significantly
 
 ## Rollback
 - Reinstall the previous package using the same steps

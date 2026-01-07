@@ -19,7 +19,6 @@ A lightweight, enterprise-ready audit solution for IT administrators and disaste
 - VM coverage and DR testing analytics
 - Optional cyber resilience checks (LTR locking)
 - Non-interactive mode using stored creds and `auth.config.json`
-- Scheduled task creation (Daily/Weekly/Monthly)
 - Modern UI (WinForms, .NET 8)
 
 ## Install
@@ -43,9 +42,6 @@ Key files:
 - `Evidence.csv` — control evidence
 - `Summary.txt`, `Manifest.json`, `ControlsMap.txt`, `Log.txt`, `Transcript.txt`
 - `RecoveryReports/` — detailed DR JSON reports
-
-## Scheduling
-Use the "Schedule Task" button in the UI to create an automated audit at 2:00 AM. Runs the `Run-ComplianceAudit.ps1` with your parameters.
 
 ## TLS Certificates
 Prefer secure TLS. Import customer CA certs per `IMPORT-CERTIFICATE.md`. Leave the lab checkbox enabled for testing, but disable in production.

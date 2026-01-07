@@ -6,7 +6,6 @@ This C# WinForms application provides a professional GUI launcher for the Zerto 
 - Enter ZVMA credentials securely
 - Select output folder
 - Run compliance scans with a single click
-- Schedule recurring compliance scans using Windows Task Scheduler
 
 ## Prerequisites
 
@@ -149,11 +148,6 @@ $Shortcut.Save()
    - Click **Run Now** to execute immediately
    - Progress bar shows execution status
    - Opens report automatically when complete
-
-5. **Schedule recurring scans** (optional)
-   - Check **Create scheduled task**
-   - Select frequency: Daily, Weekly, or Monthly
-   - Click **Schedule Task** to create Windows scheduled task
 
 ## Features
 

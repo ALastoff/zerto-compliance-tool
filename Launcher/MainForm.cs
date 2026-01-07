@@ -17,7 +17,6 @@ namespace ZertoComplianceLauncher
         private TextBox txtPassword;
         private TextBox txtPeerHosts;
         private TextBox txtOutputPath;
-        private CheckBox chkSchedule;
         private CheckBox chkInsecure;
         private CheckBox chkUseLtr;
         private CheckBox chkDifferentSecondaryAuth;
@@ -25,10 +24,8 @@ namespace ZertoComplianceLauncher
         private TextBox txtSecondaryPassword;
         private CheckBox chkAdditionalSites;
         private TextBox txtAdditionalSites;
-        private ComboBox cmbScheduleFrequency;
         private Button btnBrowse;
         private Button btnRun;
-        private Button btnSchedule;
         private Button btnCancel;
         private Button btnHelp;
         private Label lblStatus;
@@ -171,16 +168,6 @@ namespace ZertoComplianceLauncher
             txtAdditionalSites = new TextBox { Location = new System.Drawing.Point(220, 345), Size = new System.Drawing.Size(350, 25), PlaceholderText = "192.168.333.20,192.168.444.20", Enabled = false };
             this.Controls.Add(txtAdditionalSites);
 
-            // Schedule Option
-            chkSchedule = new CheckBox { Text = "Create scheduled task", Location = new System.Drawing.Point(20, 375), Size = new System.Drawing.Size(200, 25), Checked = true };
-            chkSchedule.CheckedChanged += ChkSchedule_CheckedChanged;
-            this.Controls.Add(chkSchedule);
-
-            cmbScheduleFrequency = new ComboBox { Location = new System.Drawing.Point(220, 373), Size = new System.Drawing.Size(150, 25), DropDownStyle = ComboBoxStyle.DropDownList, Enabled = true };
-            cmbScheduleFrequency.Items.AddRange(new object[] { "Daily", "Weekly", "Monthly" });
-            cmbScheduleFrequency.SelectedIndex = 1; // Weekly default
-            this.Controls.Add(cmbScheduleFrequency);
-
             // Lab mode checkbox (above progress bar)
             chkInsecure = new CheckBox { Text = "Lab mode (skip SSL verification)", Location = new System.Drawing.Point(20, 405), Size = new System.Drawing.Size(300, 25), ForeColor = System.Drawing.Color.Red };
             this.Controls.Add(chkInsecure);
@@ -206,10 +193,6 @@ namespace ZertoComplianceLauncher
             btnRun.Click += BtnRun_Click;
             this.Controls.Add(btnRun);
 
-            btnSchedule = new Button { Text = "Schedule Task", Location = new System.Drawing.Point(380, 635), Size = new System.Drawing.Size(120, 40), BackColor = System.Drawing.Color.FromArgb(255, 184, 28), ForeColor = System.Drawing.Color.White, FlatStyle = FlatStyle.Flat, Enabled = true };
-            btnSchedule.Click += BtnSchedule_Click;
-            this.Controls.Add(btnSchedule);
-
             btnCancel = new Button { Text = "Close", Location = new System.Drawing.Point(510, 635), Size = new System.Drawing.Size(70, 40) };
             btnCancel.Click += (s, e) => this.Close();
             this.Controls.Add(btnCancel);
@@ -231,11 +214,6 @@ namespace ZertoComplianceLauncher
                     txtOutputPath.Text = dialog.SelectedPath;
                 }
             }
-        }
-
-        private void ChkSchedule_CheckedChanged(object sender, EventArgs e)
-        {
-            cmbScheduleFrequency.Enabled = chkSchedule.Checked;
         }
 
         private void BtnRun_Click(object sender, EventArgs e)
@@ -263,18 +241,6 @@ namespace ZertoComplianceLauncher
             {
                 MessageBox.Show($"Unable to open email client: {ex.Message}\n\nPlease contact aaron.lastoff@hpe.com with subject: Zerto Compliance Tool", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-
-        private void BtnSchedule_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(
-                "Task Scheduler integration requires administrator elevation and system configuration that may not be available in all environments.\n\n" +
-                "For now, please use 'Run Now' to execute the compliance audit.\n\n" +
-                "Alternatively, you can schedule the PowerShell script directly:\n" +
-                "powershell -ExecutionPolicy Bypass -File Run-ComplianceAudit.ps1 [parameters]",
-                "Schedule Task Not Available",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
         }
 
         private bool ValidateInputs()
@@ -683,9 +649,6 @@ namespace ZertoComplianceLauncher
             txtPeerHosts.Enabled = enabled;
             btnBrowse.Enabled = enabled;
             btnRun.Enabled = enabled;
-            chkSchedule.Enabled = enabled;
-            cmbScheduleFrequency.Enabled = enabled && chkSchedule.Checked;
-            btnSchedule.Enabled = enabled && chkSchedule.Checked;
             btnHelp.Enabled = true;
         }
     }

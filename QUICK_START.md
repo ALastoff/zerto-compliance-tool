@@ -64,7 +64,6 @@ The completion dialog will offer to open the HTML report or folder with results.
 ✓ **Cyber Resilience** - LTR vault lock status (30% of score)  
 ✓ **Multi-Site Support** - Single, dual, or 3+ site analysis  
 ✓ **Interactive Reports** - HTML5 reports with click-through details  
-✓ **Scheduling** - Create recurring compliance scans  
 ✓ **Lab Mode** - SSL verification bypass for testing
 
 ## 📊 Scoring Breakdown
@@ -143,7 +142,6 @@ See `DEPLOYMENT_GUIDE.html` for:
 - Detailed installation instructions
 - Configuration walkthrough with screenshots placeholders
 - Multi-site setup guide
-- Scheduling & automation
 - Complete troubleshooting guide
 - Report interpretation
 
@@ -169,7 +167,6 @@ powershell -ExecutionPolicy Bypass -File Uninstall-ZertoComplianceLauncher.ps1
 - Initial release with single/dual-site support
 - Core compliance scoring engine
 - HTML report generation
-- Windows scheduled task support
 
 ---
 
