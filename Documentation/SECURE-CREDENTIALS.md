@@ -181,7 +181,7 @@ Compliance Tool/
 .\Setup-Credentials.ps1
 # When prompted for "Zerto-Source-UI":
 #   Username: admin
-#   Password: Dorchester/ma1987
+#   Password: YourSecurePassword123!
 ```
 
 ### 2. Configure auth.config.json:
