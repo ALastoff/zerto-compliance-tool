@@ -28,9 +28,21 @@ Use at your own risk.
 powershell -ExecutionPolicy Bypass -File dotnet-install.ps1
 ```
 
-### 2. Run Installer
+### 2. Install (Choose one)
+
+**Option A: Using Release ZIP (recommended for end users)**
 ```powershell
-powershell -ExecutionPolicy Bypass -File Install-ZertoComplianceLauncher.ps1
+# From the extracted Deployment Package root
+powershell -ExecutionPolicy Bypass -File .\Installer\Install-ZertoComplianceLauncher.ps1
+```
+
+**Option B: From Source (requires .NET SDK)**
+```powershell
+# From repo root
+cd .\Installer
+powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
+# or, if you already built:
+powershell -ExecutionPolicy Bypass -File .\Installer\Install-ZertoComplianceLauncher.ps1 -SourceDir ..\Launcher\bin\Release\publish
 ```
 
 ### 3. Launch Application

@@ -17,18 +17,47 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 if (-not $SourceDir) {
   # First, try current directory (when running from extracted package)
   $SourceDir = (Split-Path -Parent $PSCommandPath)
-  
-  # If files don't exist here, try the development structure
-  $exe = Join-Path $SourceDir "ZertoComplianceLauncher.exe"
-  if (-not (Test-Path $exe)) {
-    # Fallback to old development paths
-    $devPath = Join-Path (Split-Path -Parent $PSCommandPath) "..\Launcher\bin\Release\net8.0-windows"
-    if (Test-Path $devPath) {
-      $SourceDir = $devPath
-    } else {
-      $devPath = Join-Path (Split-Path -Parent $PSCommandPath) "..\Launcher\bin\Release\net6.0-windows"
-      if (Test-Path $devPath) {
-        $SourceDir = $devPath
+
+  # Check common development publish locations
+  $candidateDirs = @(
+    $SourceDir,
+    (Join-Path (Split-Path -Parent $PSCommandPath) "..\Launcher\bin\Release\publish"),
+    (Join-Path (Split-Path -Parent $PSCommandPath) "..\Launcher\bin\Release\net8.0-windows\publish"),
+    (Join-Path (Split-Path -Parent $PSCommandPath) "..\Launcher\bin\Release\net8.0-windows"),
+    (Join-Path (Split-Path -Parent $PSCommandPath) "..\Launcher\bin\Release\net6.0-windows")
+  )
+
+  $found = $false
+  foreach ($dir in $candidateDirs) {
+    if (Test-Path (Join-Path $dir "ZertoComplianceLauncher.exe")) {
+      $SourceDir = $dir
+      $found = $true
+      break
+    }
+  }
+
+  # If not found, attempt to build from source if dotnet SDK is available
+  if (-not $found) {
+    $repoRoot = (Split-Path -Parent (Split-Path -Parent $PSCommandPath))
+    $csproj = Join-Path $repoRoot "Launcher\ZertoComplianceLauncher.csproj"
+    $publishDir = Join-Path $repoRoot "Launcher\bin\Release\publish"
+    if (Test-Path $csproj) {
+      try {
+        $dotnetVersion = (& dotnet --version) 2>$null
+      } catch {
+        $dotnetVersion = $null
+      }
+      if ($dotnetVersion) {
+        Write-Host "Launcher EXE not found. Building from source using dotnet $dotnetVersion..." -ForegroundColor Yellow
+        $null = New-Item -ItemType Directory -Force -Path $publishDir
+        & dotnet publish $csproj -c Release -o $publishDir
+        if ($LASTEXITCODE -ne 0) {
+          Write-Error "dotnet publish failed. Please install .NET SDK or build manually, then re-run the installer."; exit 1
+        }
+        if (Test-Path (Join-Path $publishDir "ZertoComplianceLauncher.exe")) {
+          $SourceDir = $publishDir
+          $found = $true
+        }
       }
     }
   }
@@ -58,7 +87,14 @@ if (-not (Test-Path $ps1)) {
   if (-not (Test-Path $ps1)) { $ps1 = Join-Path (Split-Path -Parent (Split-Path -Parent $PSCommandPath)) "ZertoComplianceNew.ps1" }
 }
 
-if (-not (Test-Path $exe)) { Write-Error "Launcher EXE not found at $exe"; exit 1 }
+if (-not (Test-Path $exe)) {
+  Write-Error "Launcher EXE not found at $exe"
+  Write-Host ""; Write-Host "To install from SOURCE, build the launcher then re-run this installer:" -ForegroundColor Yellow
+  Write-Host "  dotnet publish \"..\\Launcher\\ZertoComplianceLauncher.csproj\" -c Release -o \"..\\Launcher\\bin\\Release\\publish\"" -ForegroundColor Yellow
+  Write-Host "  powershell -ExecutionPolicy Bypass -File .\\Install-ZertoComplianceLauncher.ps1 -SourceDir ..\\Launcher\\bin\\Release\\publish" -ForegroundColor Yellow
+  Write-Host ""; Write-Host "Alternatively, download the Deployment Package release which includes the EXE." -ForegroundColor Yellow
+  exit 1
+}
 if (-not (Test-Path $dll)) { Write-Error "Launcher DLL not found at $dll"; exit 1 }
 if (-not (Test-Path $deps)) { Write-Error "Launcher deps.json not found at $deps"; exit 1 }
 if (-not (Test-Path $runtimecfg)) { Write-Error "Launcher runtimeconfig.json not found at $runtimecfg"; exit 1 }
