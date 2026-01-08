@@ -12,6 +12,10 @@ _archive_test_runs/
 _archive_old/
 *.log
 
+# Local backups and legacy archives (kept outside of repo)
+Archive/
+_local_backup/
+
 # Build outputs
 Launcher/bin/
 Launcher/obj/

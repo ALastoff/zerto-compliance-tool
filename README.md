@@ -225,6 +225,8 @@ The tool supports multiple authentication methods:
 
 For automation and non-interactive scenarios, use PowerShell script directly:
 
+> Replace the example IPs (`192.168.111.20`, `192.168.222.20`) with your own ZVM/ZVMA hostnames or IPs.
+
 ### Basic Audit:
 
 ```powershell
