@@ -7,6 +7,16 @@
 
 🎯 **Professional Zerto Virtual Replication Compliance Auditing, DR Testing Analytics & Cyber Resilience Monitoring**
 
+---
+
+## 📦 Quick Download
+
+**👉 [Download Latest Release (v2.1.0)](https://github.com/ALastoff/zerto-compliance-tool/releases/latest) 👈**
+
+**Pre-built package** — No building required! Includes compiled executable, installer, and documentation.
+
+For developers or advanced users, see [Installation from Source](#installation-from-source) below.
+
 The Zerto Compliance Tool is an open-source automation solution for Zerto Virtual Manager (ZVM/ZVMA) environments that helps IT administrators, disaster recovery teams, and MSPs monitor DR testing effectiveness, track VM protection coverage, validate cyber resilience configurations, and generate executive-ready compliance reports.
 
 ### 🔍 Perfect for:
@@ -54,32 +64,21 @@ Query Zerto REST APIs to generate **interactive HTML dashboards** showing DR tes
 
 ---
 
-## Quick Start
+## Quick Start (Pre-Built Release)
 
-### 1. Download
+### 1. Download Release Package
 
-```bash
-# Option A: Clone with Git
-git clone https://github.com/ALastoff/zerto-compliance-tool.git
-cd zerto-compliance-tool
+**👉 [Download ComplianceTool_DeploymentPackage.zip](https://github.com/ALastoff/zerto-compliance-tool/releases/latest)**
 
-# Option B: Download ZIP from GitHub
-# Extract to your preferred location and navigate to folder
-```
-
-**Windows Users:** Unblock downloaded files to prevent execution errors:
-```powershell
-Get-ChildItem -Recurse | Unblock-File
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-```
+Extract the ZIP to any location (e.g., `C:\Tools\zerto-compliance-tool`)
 
 ### 2. Install Dependencies
 
-**From the repo root directory** (e.g., `C:\Users\YourName\Downloads\zerto-compliance-tool`):
+**From the extracted folder**:
 
 ```powershell
 # Install .NET 8.0 Desktop Runtime (if needed)
-powershell -ExecutionPolicy Bypass -File .\Launcher\dotnet-install.ps1
+powershell -ExecutionPolicy Bypass -File .\dotnet-install.ps1
 
 # Run environment setup
 powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
@@ -87,41 +86,12 @@ powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
 
 ### 3. Install Application
 
-⚠️ **Choose the correct option based on your source:**
-
-**Option A: Deployment Package ZIP (Recommended for end users)**
-
-If you downloaded a `ComplianceTool_DeploymentPackage.zip` or release package:
 ```powershell
-# Navigate to Installer folder inside the extracted package
+# Navigate to Installer folder
 cd .\Installer
+
+# Run installer (requires Administrator)
 powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1
-```
-
-**Option B: GitHub Source Code (requires .NET SDK)**
-
-If you cloned from GitHub (`git clone ...`), you need the .NET SDK to build:
-
-1. **First**, install .NET SDK 8.0 or later:
-   ```powershell
-   # Download from https://dotnet.microsoft.com/download/dotnet
-   # Select .NET 8.0 → Download SDK (not just Runtime)
-   ```
-
-2. **Then** build and install:
-   ```powershell
-   cd .\Installer
-   powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
-   ```
-
-**Option C: Manual build (if Option B fails)**
-```powershell
-# From repo root:
-dotnet publish .\Launcher\ZertoComplianceLauncher.csproj -c Release -o .\Launcher\bin\Release\publish
-
-# Then run installer:
-cd .\Installer
-powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1 -SourceDir ..\Launcher\bin\Release\publish
 ```
 
 The installer:
@@ -372,6 +342,42 @@ This removes:
 - Start Menu shortcut
 
 **Note:** Audit reports in your output directory are preserved.
+
+---
+
+## Installation from Source
+
+**For developers and advanced users** who want to build from source code:
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/ALastoff/zerto-compliance-tool.git
+cd zerto-compliance-tool
+```
+
+### 2. Install .NET SDK
+
+**Required:** .NET SDK 8.0 or later (not just Runtime)
+
+Download from: https://dotnet.microsoft.com/download/dotnet
+
+### 3. Build and Install
+
+```powershell
+# Unblock files (Windows)
+Get-ChildItem -Recurse | Unblock-File
+
+# Set execution policy
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+
+# Run environment setup
+powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
+
+# Build and install
+cd .\Installer
+powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
+```
 
 ---
 

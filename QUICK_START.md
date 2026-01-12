@@ -23,49 +23,33 @@ Use at your own risk.
 
 ## ⚡ Quick Start (5 Minutes)
 
+### Pre-Built Release (Recommended)
+
+**👉 [Download Latest Release](https://github.com/ALastoff/zerto-compliance-tool/releases/latest)**
+
 ### 1. Download & Extract
 
-```powershell
-# Option A: Clone with Git
-git clone https://github.com/ALastoff/zerto-compliance-tool.git
-cd zerto-compliance-tool
-
-# Option B: Download ZIP from GitHub Releases
-# Extract to your preferred location (e.g., C:\Tools\zerto-compliance-tool)
-# Open PowerShell and navigate to extracted folder:
-cd C:\Path\To\zerto-compliance-tool
-```
-
-**Windows Users:** Unblock downloaded files to prevent execution errors:
-```powershell
-Get-ChildItem -Recurse | Unblock-File
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-```
+Download `ComplianceTool_DeploymentPackage.zip` from the releases page and extract to any location (e.g., `C:\Tools\zerto-compliance-tool`)
 
 ### 2. Install .NET Runtime (If Needed)
 
-**From the repo root directory**:
+**From the extracted folder**:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\Launcher\dotnet-install.ps1
+powershell -ExecutionPolicy Bypass -File .\dotnet-install.ps1
 ```
 
-### 3. Install Application
+### 3. Run Environment Setup
 
-⚠️ **Choose the correct option based on your situation:**
-
-**Option A: You have a Deployment Package ZIP (Recommended)**
 ```powershell
-# Inside the extracted package, navigate to Installer folder:
+powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
+```
+
+### 4. Install Application
+
+```powershell
+# Navigate to Installer folder:
 cd .\Installer
 powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1
-```
-
-**Option B: You cloned from GitHub source (requires .NET SDK)**
-
-First, install the .NET SDK (NOT just the Runtime):
-```powershell
-# Download from https://dotnet.microsoft.com/download/dotnet
-# Select .NET 8.0 Desktop Runtime AND SDK
 ```
 
 Then build and install:
@@ -96,6 +80,38 @@ powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1 -
 
 ### 6. Review Report
 The completion dialog will offer to open the HTML report or folder with results.
+
+---
+
+## 🔧 Installation from Source (Developers Only)
+
+**For developers** who want to build from GitHub source:
+
+### 1. Clone Repository
+```powershell
+git clone https://github.com/ALastoff/zerto-compliance-tool.git
+cd zerto-compliance-tool
+```
+
+### 2. Install .NET SDK
+**Required:** .NET SDK 8.0+ (not just Runtime)  
+Download from: https://dotnet.microsoft.com/download/dotnet
+
+### 3. Build & Install
+```powershell
+# Unblock files
+Get-ChildItem -Recurse | Unblock-File
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+
+# Run setup
+powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
+
+# Build and install
+cd .\Installer
+powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
+```
+
+---
 
 ## ✅ System Requirements
 
