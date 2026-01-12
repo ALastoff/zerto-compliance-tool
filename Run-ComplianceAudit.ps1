@@ -1691,10 +1691,16 @@ try {
   $recovery = Get-FailoverTests -ZVMAHost $ZVMAHost -Headers $zvmaHeaders
 
   if (-not $recovery) { $recovery = @() }
-  Write-Log ("Received {0} test reports from API" -f $recovery.Count) 'INFO'
+  
+  # Ensure $recovery is always an array
+  if ($recovery -isnot [System.Collections.IEnumerable] -or $recovery -is [string]) {
+    $recovery = @($recovery)
+  }
+  
+  Write-Log ("Received {0} test reports from API (type: {1})" -f $recovery.Count, $recovery.GetType().Name) 'INFO'
 
   # Save ALL recovery reports as JSON evidence (not just those in time window)
-  if ($recovery -and $recovery.Count -gt 0) {
+  if ($recovery.Count -gt 0) {
     $recoveryReportsDir = Join-Path $script:OutDir 'RecoveryReports'
     try {
       if (-not (Test-Path $recoveryReportsDir)) {
