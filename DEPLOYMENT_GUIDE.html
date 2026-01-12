@@ -184,15 +184,6 @@
         table tr:nth-child(even) {
             background: #f9f9f9;
         }
-        .screenshot-placeholder {
-            background: #e9ecef;
-            border: 2px dashed #0066cc;
-            padding: 40px;
-            text-align: center;
-            border-radius: 4px;
-            margin: 20px 0;
-            color: #666;
-        }
         .feature-list {
             list-style: none;
             padding: 0;
@@ -423,9 +414,6 @@ powershell -ExecutionPolicy Bypass -File dotnet-install.ps1</code></pre>
             <li>Create desktop shortcut (optional)</li>
             <li>Register the application</li>
         </ul>
-        <div class="screenshot-placeholder">
-            [Screenshot: Installation progress window]
-        </div>
     </div>
 
     <div class="step">
@@ -473,9 +461,6 @@ ZertoComplianceNew.ps1
         <h4>Start the Tool</h4>
         <p>Double-click the desktop shortcut or run:</p>
         <pre><code>"C:\Program Files\ZertoCompliance\ZertoComplianceLauncher.exe"</code></pre>
-        <div class="screenshot-placeholder">
-            [Screenshot: Main GUI window on first launch]
-        </div>
     </div>
 
     <h3>Basic Configuration</h3>
@@ -485,9 +470,6 @@ ZertoComplianceNew.ps1
         <p><strong>Label:</strong> Source Site<br>
         <strong>Input:</strong> IP address or hostname of your primary Zerto ZVMA</p>
         <p><strong>Example:</strong> <code>192.168.111.20</code> or <code>zvma-prod.corp.local</code></p>
-        <div class="screenshot-placeholder">
-            [Screenshot: Source Site input field with example]
-        </div>
     </div>
 
     <div class="step">
@@ -514,9 +496,6 @@ ZertoComplianceNew.ps1
             <li>Check: "Secondary site has different credentials" (if needed)</li>
             <li>Enter secondary site credentials if different from primary</li>
         </ul>
-        <div class="screenshot-placeholder">
-            [Screenshot: Secondary site configuration with checkbox]
-        </div>
     </div>
 
     <div class="step">
@@ -578,9 +557,6 @@ ZertoComplianceNew.ps1
             <li>✓ Compliance scan completed successfully!</li>
         </ul>
         <p>Typical scan duration: 30 seconds to 2 minutes depending on environment size</p>
-        <div class="screenshot-placeholder">
-            [Screenshot: Scan in progress - status updates]
-        </div>
     </div>
 
     <div class="step">
@@ -593,9 +569,6 @@ ZertoComplianceNew.ps1
         </ul>
         <div class="success">
             <strong>✓ Report generated:</strong> <code>ZertoCompliance_192.168.111.20_20251225_160000/Report_20251225_160000.html</code>
-        </div>
-        <div class="screenshot-placeholder">
-            [Screenshot: Success dialog with checkmark and action buttons]
         </div>
     </div>
 
@@ -634,26 +607,30 @@ ZertoComplianceNew.ps1
     <h2>✨ Key Features</h2>
     
     <h3>Scoring Methodology</h3>
-    <p>The compliance score (0-100%) is calculated from three weighted categories:</p>
+    <p>The compliance score (0-100%) uses dynamic weights. When Cyber Resilience (LTR) is evaluated, the standard weights apply. When LTR is not evaluated, its weight is redistributed to DR Testing and VM Coverage.</p>
     <table>
         <tr>
             <th>Category</th>
-            <th>Weight</th>
+            <th>Weight (LTR On)</th>
+            <th>Weight (LTR Off)</th>
             <th>Measured By</th>
         </tr>
         <tr>
             <td>DR Testing</td>
             <td>40%</td>
+            <td>≈57.14%</td>
             <td>% of VPGs tested in last 6 months</td>
         </tr>
         <tr>
             <td>VM Coverage</td>
             <td>30%</td>
+            <td>≈42.86%</td>
             <td>% of VMs protected by Zerto</td>
         </tr>
         <tr>
             <td>Cyber Resilience</td>
             <td>30%</td>
+            <td>0% (not scored)</td>
             <td>% of LTR VPGs with vault locks enabled</td>
         </tr>
     </table>
@@ -674,14 +651,6 @@ ZertoComplianceNew.ps1
         <li>Timestamped filenames for easy version tracking</li>
         <li>JSON manifest for programmatic access</li>
         <li>Machine-readable CSV output format available</li>
-    </ul>
-
-    <h3>Scheduling & Automation</h3>
-    <ul class="feature-list">
-        <li>Create Windows scheduled tasks directly from GUI</li>
-        <li>Daily, weekly, or monthly scan frequency</li>
-        <li>Non-interactive mode for background execution</li>
-        <li>Automatic email notification capability (via scheduled task)</li>
     </ul>
 
     <h3>Lab Mode Capability</h3>
