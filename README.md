@@ -75,6 +75,8 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 
 ### 2. Install Dependencies
 
+**From the repo root directory** (e.g., `C:\Users\YourName\Downloads\zerto-compliance-tool`):
+
 ```powershell
 # Install .NET 8.0 Desktop Runtime (if needed)
 powershell -ExecutionPolicy Bypass -File .\Launcher\dotnet-install.ps1
@@ -85,9 +87,18 @@ powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
 
 ### 3. Install Application
 
+**From the repo root directory**:
+
 ```powershell
 # Run installer (requires Administrator)
 powershell -ExecutionPolicy Bypass -File .\Installer\Install-ZertoComplianceLauncher.ps1
+```
+
+**Alternatively, from the Installer folder**:
+
+```powershell
+cd .\Installer
+powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
 ```
 
 The installer:

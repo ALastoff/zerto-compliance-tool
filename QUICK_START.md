@@ -23,40 +23,60 @@ Use at your own risk.
 
 ## ⚡ Quick Start (5 Minutes)
 
-### 1. Install .NET (If Needed)
+### 1. Download & Extract
+
 ```powershell
-powershell -ExecutionPolicy Bypass -File dotnet-install.ps1
+# Option A: Clone with Git
+git clone https://github.com/ALastoff/zerto-compliance-tool.git
+cd zerto-compliance-tool
+
+# Option B: Download ZIP from GitHub Releases
+# Extract to your preferred location (e.g., C:\Tools\zerto-compliance-tool)
+# Open PowerShell and navigate to extracted folder:
+cd C:\Path\To\zerto-compliance-tool
 ```
 
-### 2. Install (Choose one)
-
-**Option A: Using Release ZIP (recommended for end users)**
+**Windows Users:** Unblock downloaded files to prevent execution errors:
 ```powershell
-# From the extracted Deployment Package root
+Get-ChildItem -Recurse | Unblock-File
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+```
+
+### 2. Install .NET Runtime (If Needed)
+
+**From the repo root directory**:
+```powershell
+powershell -ExecutionPolicy Bypass -File .\Launcher\dotnet-install.ps1
+```
+
+### 3. Install Application
+
+**From the repo root directory**:
+
+```powershell
+# Run installer (requires Administrator)
 powershell -ExecutionPolicy Bypass -File .\Installer\Install-ZertoComplianceLauncher.ps1
 ```
 
-**Option B: From Source (requires .NET SDK)**
+**If you get errors about missing EXE**, build from source first:
 ```powershell
-# From repo root
 cd .\Installer
 powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
-# or, if you already built:
-powershell -ExecutionPolicy Bypass -File .\Installer\Install-ZertoComplianceLauncher.ps1 -SourceDir ..\Launcher\bin\Release\publish
 ```
 
-### 3. Launch Application
+### 4. Launch Application
 ```powershell
+# From Start Menu or Desktop shortcut, or:
 "C:\Program Files\ZertoCompliance\ZertoComplianceLauncher.exe"
 ```
 
-### 4. Configure & Run
+### 5. Configure & Run
 - **Source Site:** Enter primary ZVMA IP/hostname
 - **Zerto GUI User Name:** Enter your Zerto admin username (e.g., `admin`)
 - **Password:** Enter corresponding password
 - Click **"Run Now"** to start the compliance scan
 
-### 5. Review Report
+### 6. Review Report
 The completion dialog will offer to open the HTML report or folder with results.
 
 ## ✅ System Requirements
