@@ -87,18 +87,41 @@ powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
 
 ### 3. Install Application
 
-**From the repo root directory**:
+⚠️ **Choose the correct option based on your source:**
 
+**Option A: Deployment Package ZIP (Recommended for end users)**
+
+If you downloaded a `ComplianceTool_DeploymentPackage.zip` or release package:
 ```powershell
-# Run installer (requires Administrator)
-powershell -ExecutionPolicy Bypass -File .\Installer\Install-ZertoComplianceLauncher.ps1
+# Navigate to Installer folder inside the extracted package
+cd .\Installer
+powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1
 ```
 
-**Alternatively, from the Installer folder**:
+**Option B: GitHub Source Code (requires .NET SDK)**
 
+If you cloned from GitHub (`git clone ...`), you need the .NET SDK to build:
+
+1. **First**, install .NET SDK 8.0 or later:
+   ```powershell
+   # Download from https://dotnet.microsoft.com/download/dotnet
+   # Select .NET 8.0 → Download SDK (not just Runtime)
+   ```
+
+2. **Then** build and install:
+   ```powershell
+   cd .\Installer
+   powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
+   ```
+
+**Option C: Manual build (if Option B fails)**
 ```powershell
+# From repo root:
+dotnet publish .\Launcher\ZertoComplianceLauncher.csproj -c Release -o .\Launcher\bin\Release\publish
+
+# Then run installer:
 cd .\Installer
-powershell -ExecutionPolicy Bypass -File .\Build-And-Install.ps1
+powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1 -SourceDir ..\Launcher\bin\Release\publish
 ```
 
 The installer:
