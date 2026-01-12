@@ -42,7 +42,7 @@ Query Zerto REST APIs to generate **interactive HTML dashboards** showing DR tes
 • 🔐 **Secure Authentication**: Windows Credential Manager integration + config file support  
 • 🌍 **Multi-Site Support**: Primary + Secondary + Additional sites (3+)  
 • 📍 **Recovery Reports Collection**: Centralizes VPG test reports in audit artifacts  
-• 🎯 **Weighted Scoring**: DR Testing (40%), VM Coverage (30%), Cyber Resilience (30%)  
+• 🎯 **Dynamic Scoring**: DR Testing (40%), VM Coverage (30%), Cyber Resilience (30%) when LTR is evaluated; weights redistribute to DR/VM if Cyber is not evaluated  
 • ⚠️ **Intelligent Alerts**: Color-coded recommendations for undertested VPGs  
 • 🔒 **Security-First**: TLS validation, Lab Mode for testing, no password logging  
 • 📝 **Comprehensive Artifacts**: Evidence CSV, control maps, transcripts, manifests
@@ -132,22 +132,19 @@ Reports are generated in: `ComplianceAudit_<host>_<YYYY-MM-DD_HHMMSS>/`
 
 ## Scoring Breakdown
 
-Your compliance score is calculated from three weighted categories:
+Your compliance score uses **dynamic weights**:
 
-```
-Overall Score = (DR Testing % × 0.40) 
-              + (VM Coverage % × 0.30) 
-              + (Cyber Resilience % × 0.30)
-```
+- When **Cyber Resilience is evaluated (LTR enabled)**:
+  - Overall = (DR Testing % × 0.40) + (VM Coverage % × 0.30) + (Cyber Resilience % × 0.30)
+- When **Cyber Resilience is NOT evaluated (LTR disabled)**:
+  - Cyber weight is removed and redistributed proportionally → DR Testing ≈ 57.14%, VM Coverage ≈ 42.86%
 
-### Example Calculation:
+### Example Calculations:
 
-| Category | Effectiveness | Weight | Points |
-|----------|--------------|--------|--------|
-| DR Testing | 50% | 40% | **20** |
-| VM Coverage | 80% | 30% | **24** |
-| Cyber Resilience | 0% | 30% | **0** |
-| **Total Score** | — | — | **44%** |
+| Scenario | DR Testing | VM Coverage | Cyber | Total |
+|----------|------------|-------------|-------|-------|
+| LTR **enabled** (standard weights) | 50% × 0.40 = 20 | 80% × 0.30 = 24 | 0% × 0.30 = 0 | **44%** |
+| LTR **disabled** (redistributed weights) | 100% × 0.5714 = 57.1 | 50% × 0.4286 = 21.4 | — | **79%** |
 
 **Click dashboard cards** in the HTML report to see detailed breakdowns!
 

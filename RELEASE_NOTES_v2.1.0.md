@@ -89,6 +89,7 @@ Included in the package:
 
 - **Improved installer robustness** - Auto-detects and handles missing dependencies
 - **Enhanced documentation** - Clear distinction between pre-built packages and source builds
+- **Dynamic scoring** - Cyber Resilience weight is removed and redistributed when LTR is not evaluated
 - **GitHub Release workflow** - Simplified distribution for end users
 - **Updated Quick Start** - Streamlined 5-minute installation process
 - **Sanitized documentation** - Enterprise-ready examples (no internal IPs/paths)
