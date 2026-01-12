@@ -19,7 +19,7 @@ This guide explains how to securely configure credentials for the Zerto Complian
 Run the setup script:
 
 ```powershell
-cd "C:\Users\Administrator\Documents\Scripts\Compliance Tool"
+cd "C:\Tools\zerto-compliance-tool"
 .\Setup-Credentials.ps1
 ```
 

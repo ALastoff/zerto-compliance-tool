@@ -17,7 +17,7 @@ The Zerto Compliance Collector now supports managing multiple hypervisor/ZVMA si
   "Description": "Hypervisor/ZVMA Site Configurations",
   "Site1": {
     "Name": "Primary Site",
-    "Host": "192.168.111.20",
+    "Host": "primary-zvma.example.com",
     "Port": 443,
     "Description": "Primary Zerto ZVMA",
     "Enabled": true,
@@ -25,7 +25,7 @@ The Zerto Compliance Collector now supports managing multiple hypervisor/ZVMA si
   },
   "Site2": {
     "Name": "Secondary Site",
-    "Host": "192.168.222.20",
+    "Host": "secondary-zvma.example.com",
     "Port": 443,
     "Description": "Secondary Zerto ZVMA (Peer/Target)",
     "Enabled": false,
@@ -111,10 +111,10 @@ Now you can run the script without entering hypervisor IPs:
 If any sites are not configured in `auth.config.json`, the script will prompt you interactively:
 
 ```
-Enter Primary Site ZVMA IP/FQDN (Site 1): 192.168.111.20
+Enter Primary Site ZVMA IP/FQDN (Site 1): primary-zvma.example.com
 Enter ZVMA Admin Username: admin
 Enter ZVMA Admin Password: **************
-Enter Secondary Site ZVMA IP/FQDN (Site 2, leave blank to skip): 192.168.222.20
+Enter Secondary Site ZVMA IP/FQDN (Site 2, leave blank to skip): secondary-zvma.example.com
 Configure a tertiary (3rd) Zerto site? (y/n): y
 Enter Tertiary Site ZVMA IP/FQDN (Site 3): 192.168.233.20
 ```
@@ -126,7 +126,7 @@ Enter Tertiary Site ZVMA IP/FQDN (Site 3): 192.168.233.20
 ```json
 "Hypervisors": {
   "Site1": {
-    "Host": "192.168.111.20",
+    "Host": "primary-zvma.example.com",
     "Enabled": true,
     "Credentials": "SourceZertoUI"
   },
@@ -232,7 +232,7 @@ Store credentials for each account using:
 **Solution**: Verify the site is enabled in `auth.config.json`:
 ```json
 "Site1": {
-  "Host": "192.168.111.20",
+  "Host": "primary-zvma.example.com",
   "Enabled": true  # Must be true
 }
 ```

@@ -104,8 +104,8 @@ https://zvm.example.com:9669/swagger/swagger.json
 In the Zerto Compliance Launcher:
 
 1. **Source Site:** Enter ZVMA hostname or IP
-   - ✅ Zerto 10.x: `192.168.222.20` or `zvma.example.com`
-   - ✅ Zerto 9.x: `192.168.111.50` or `zvm.example.com`
+   - ✅ Zerto 10.x: `zvma-10x.example.com` or `10.0.1.100`
+   - ✅ Zerto 9.x: `zvm-9x.example.com` or `10.0.1.50`
    
 2. **No port specification needed** - Tool auto-detects
 
@@ -116,7 +116,7 @@ In the Zerto Compliance Launcher:
 **Zerto 10.x:**
 ```powershell
 .\ZertoComplianceNew.ps1 `
-    -ZVMAHost "192.168.222.20" `
+    -ZVMAHost "zvma-10x.example.com" `
     -Username "admin" `
     -Password "YourPassword"
 ```
@@ -124,7 +124,7 @@ In the Zerto Compliance Launcher:
 **Zerto 9.x:**
 ```powershell
 .\ZertoComplianceNew.ps1 `
-    -ZVMAHost "192.168.111.50" `
+    -ZVMAHost "zvm-9x.example.com" `
     -Username "administrator@vsphere.local" `
     -Password "YourPassword"
 ```

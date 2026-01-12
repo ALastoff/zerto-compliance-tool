@@ -19,17 +19,17 @@ Ensure your `auth.config.json` has all required hypervisor details populated:
 {
   "Hypervisors": {
     "Site1": {
-      "Host": "192.168.111.20",
+      "Host": "primary-zvma.example.com",
       "Enabled": true,
       "CredentialTarget": "Zerto-Source-UI"
     },
     "Site2": {
-      "Host": "192.168.222.20",
+      "Host": "secondary-zvma.example.com",
       "Enabled": true,
       "CredentialTarget": "Zerto-Target-UI"
     },
     "vCenter": {
-      "Host": "192.168.111.10",
+      "Host": "tertiary-zvma.example.com",
       "Username": "administrator@vsphere.local",
       "CredentialTarget": "vCenter-Creds"
     }
@@ -137,7 +137,7 @@ cmdkey /generic:Zerto-Source-UI /user:admin /pass:CorrectPasswordHere
 **Solution**: If you want vCenter integration in non-interactive mode, add it to auth.config.json:
 ```json
 "vCenter": {
-  "Host": "192.168.111.10",
+  "Host": "vcenter.example.com",
   "Username": "administrator@vsphere.local",
   "CredentialTarget": "vCenter-Creds"
 }
