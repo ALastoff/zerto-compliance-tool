@@ -2432,20 +2432,36 @@ try {
   }
 
   # --- Scores ---
-  # Calculate effectiveness scores (0-100%) and weighted contributions
+  # Calculate effectiveness scores (0-100%)
   $testEffectiveness = if ($totalVpgs -gt 0) { [double]$testsPassed / [double]$totalVpgs * 100.0 } else { 0.0 }
-  $testScore = $testEffectiveness * 0.40  # 40% weighting
   
   $coverageEffectiveness = if ($PSBoundParameters.ContainsKey('TotalVmCount') -and $TotalVmCount -gt 0) {
     [double]$totalProtected / [double]$TotalVmCount * 100.0
   } else {
     100.0  # Without a full inventory, treat as fully covered
   }
-  $coverageScore = $coverageEffectiveness * 0.30  # 30% weighting
   
   # Cyber: Only score if LTR VPGs are configured; otherwise 0% effectiveness
   $cyberEffectiveness = if ($UseLTR -and $ltrVpgs -gt 0) { [double]$lockedVpgs / [double]$ltrVpgs * 100.0 } else { 0.0 }
-  $cyberScore = $cyberEffectiveness * 0.30  # 30% weighting
+  $cyberIsEvaluated = $UseLTR -and $ltrVpgs -gt 0
+  
+  # Dynamic weighting: if Cyber is not evaluated, redistribute its weight to DR Testing and VM Coverage
+  if ($cyberIsEvaluated) {
+    # Standard weights: DR 40%, Coverage 30%, Cyber 30%
+    $testWeight = 0.40
+    $coverageWeight = 0.30
+    $cyberWeight = 0.30
+  } else {
+    # Cyber not evaluated: redistribute its 30% weight proportionally
+    # New: DR 57.14% (~40/70), Coverage 42.86% (~30/70)
+    $testWeight = 0.40 / 0.70
+    $coverageWeight = 0.30 / 0.70
+    $cyberWeight = 0.0
+  }
+  
+  $testScore = $testEffectiveness * $testWeight
+  $coverageScore = $coverageEffectiveness * $coverageWeight
+  $cyberScore = $cyberEffectiveness * $cyberWeight
   
   $totalScore = [int][math]::Round($testScore + $coverageScore + $cyberScore)
 
@@ -2469,7 +2485,7 @@ try {
 
     if ($displayTotal -gt 0) {
       $coverageEffectiveness = [double]$displayProtected / [double]$displayTotal * 100.0
-      $coverageScore = $coverageEffectiveness * 0.30
+      $coverageScore = $coverageEffectiveness * $coverageWeight
       $totalScore = [int][math]::Round($testScore + $coverageScore + $cyberScore)
     }
   } catch { Write-Log ("Infrastructure VM exclusion recompute failed: {0}" -f $_.Exception.Message) 'WARN' }
