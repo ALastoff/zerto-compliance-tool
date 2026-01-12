@@ -47,8 +47,7 @@ powershell -ExecutionPolicy Bypass -File .\Setup-Environment.ps1
 ### 4. Install Application
 
 ```powershell
-# Navigate to Installer folder:
-cd .\Installer
+# Run installer from the extracted folder (requires Administrator):
 powershell -ExecutionPolicy Bypass -File .\Install-ZertoComplianceLauncher.ps1
 ```
 
