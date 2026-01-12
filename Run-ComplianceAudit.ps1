@@ -1693,6 +1693,53 @@ try {
   if (-not $recovery) { $recovery = @() }
   Write-Log ("Received {0} test reports from API" -f $recovery.Count) 'INFO'
 
+  # Save ALL recovery reports as JSON evidence (not just those in time window)
+  if ($recovery -and $recovery.Count -gt 0) {
+    $recoveryReportsDir = Join-Path $script:OutDir 'RecoveryReports'
+    try {
+      if (-not (Test-Path $recoveryReportsDir)) {
+        New-Item -ItemType Directory -Path $recoveryReportsDir -Force | Out-Null
+      }
+      Write-Log ("Saving {0} recovery test report(s) as JSON evidence..." -f $recovery.Count) 'INFO'
+      
+      $reportIndex = 1
+      foreach ($rep in $recovery) {
+        $vpgName = 'Unknown'
+        if ($rep.PSObject.Properties['General'] -and $rep.General.PSObject.Properties['VpgName']) {
+          $vpgName = [string]$rep.General.VpgName
+        } elseif ($rep.PSObject.Properties['VpgName']) {
+          $vpgName = [string]$rep.VpgName
+        } elseif ($rep.PSObject.Properties['vpgName']) {
+          $vpgName = [string]$rep.vpgName
+        }
+        $sanitizedVpgName = $vpgName -replace '[^\w\-]', '_'
+        
+        $reportStartTime = 'unknown'
+        if ($rep.PSObject.Properties['General'] -and $rep.General.PSObject.Properties['StartTime']) {
+          $reportStartTime = [string]$rep.General.StartTime
+          $reportStartTime = $reportStartTime -replace '[:T]', '-' -replace 'Z', '' -replace '\..*$', ''
+        } elseif ($rep.PSObject.Properties['StartTime']) {
+          $reportStartTime = [string]$rep.StartTime
+          $reportStartTime = $reportStartTime -replace '[:T]', '-' -replace 'Z', '' -replace '\..*$', ''
+        }
+        
+        $fileName = ("Report_{0:D3}_{1}_{2}.json" -f $reportIndex, $sanitizedVpgName, $reportStartTime)
+        $filePath = Join-Path $recoveryReportsDir $fileName
+        
+        try {
+          $rep | ConvertTo-Json -Depth 10 | Set-Content -Path $filePath -Encoding UTF8
+          Write-Log ("Saved recovery report: {0}" -f $fileName) 'INFO'
+        } catch {
+          Write-Log ("Failed to save recovery report {0}: {1}" -f $fileName, $_.Exception.Message) 'WARN'
+        }
+        $reportIndex++
+      }
+      Write-Log ("Recovery reports saved to: {0}" -f $recoveryReportsDir) 'INFO'
+    } catch {
+      Write-Log ("Failed to create recovery reports directory: {0}" -f $_.Exception.Message) 'WARN'
+    }
+  }
+
   # Fetch VPG list early to build an identifier->name map for report correlation
   Write-Log "Collecting VPG list for test correlation..." 'INFO'
   $vpgs = Get-Vpgs -ZVMAHost $ZVMAHost -Headers $zvmaHeaders
@@ -1822,46 +1869,6 @@ try {
       Status       = $testInfo.Status
       Timestamp    = $testInfo.StartTime
     })
-  }
-
-  # Save recovery reports as JSON evidence (tests within the time window)
-  if ($recovery -and $recovery.Count -gt 0) {
-    $recoveryReportsDir = Join-Path $script:OutDir 'RecoveryReports'
-    try {
-      if (-not (Test-Path $recoveryReportsDir)) {
-        New-Item -ItemType Directory -Path $recoveryReportsDir -Force | Out-Null
-      }
-      Write-Log ("Saving {0} recovery test report(s) as JSON evidence..." -f $recovery.Count) 'INFO'
-      
-      $reportIndex = 1
-      foreach ($rep in $recovery) {
-        $vpgName = 'Unknown'
-        if ($rep.PSObject.Properties['General'] -and $rep.General.PSObject.Properties['VpgName']) {
-          $vpgName = [string]$rep.General.VpgName
-        }
-        $sanitizedVpgName = $vpgName -replace '[^\w\-]', '_'
-        
-        $reportStartTime = 'unknown'
-        if ($rep.PSObject.Properties['General'] -and $rep.General.PSObject.Properties['StartTime']) {
-          $reportStartTime = [string]$rep.General.StartTime
-          $reportStartTime = $reportStartTime -replace '[:T]', '-' -replace 'Z', '' -replace '\..*$', ''
-        }
-        
-        $fileName = ("Report_{0:D3}_{1}_{2}.json" -f $reportIndex, $sanitizedVpgName, $reportStartTime)
-        $filePath = Join-Path $recoveryReportsDir $fileName
-        
-        try {
-          $rep | ConvertTo-Json -Depth 10 | Set-Content -Path $filePath -Encoding UTF8
-          Write-Log ("Saved recovery report: {0}" -f $fileName) 'INFO'
-        } catch {
-          Write-Log ("Failed to save recovery report {0}: {1}" -f $fileName, $_.Exception.Message) 'WARN'
-        }
-        $reportIndex++
-      }
-      Write-Log ("Recovery reports saved to: {0}" -f $recoveryReportsDir) 'INFO'
-    } catch {
-      Write-Log ("Failed to create recovery reports directory: {0}" -f $_.Exception.Message) 'WARN'
-    }
   }
 
   Write-Log "Collecting VPG/LTR settings..." 'INFO'
